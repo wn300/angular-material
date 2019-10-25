@@ -1,5 +1,11 @@
-import { Component, Input } from "@angular/core";
-import { MatBottomSheet, MatBottomSheetRef } from "@angular/material";
+import { Component, Input, Inject } from "@angular/core";
+import {
+  MatBottomSheet,
+  MatBottomSheetRef,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialog
+} from "@angular/material";
 @Component({
   selector: "layout-tools",
   template: `
@@ -20,24 +26,24 @@ import { MatBottomSheet, MatBottomSheetRef } from "@angular/material";
           >notification_important</mat-icon
         >
       </button>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="openDialog()">
         <mat-icon mat-icon-button class="example-icon" aria-hidden="false"
           >exit_to_app</mat-icon
         >
       </button>
     </ng-template>
     <ng-template #responsive let-lessonsCounter="estimate">
-      <button mat-menu-item  (click)="openBottomSheet()">
+      <button mat-menu-item (click)="openBottomSheet()">
         <mat-icon
           class="example-icon"
           aria-hidden="false"
           matBadge="4"
-          matBadgeColor="warn"         
+          matBadgeColor="warn"
           >notification_important</mat-icon
         >
         Notificaciones
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item (click)="openDialog()">
         <mat-icon mat-icon-button class="example-icon" aria-hidden="false"
           >exit_to_app</mat-icon
         >
@@ -49,11 +55,27 @@ import { MatBottomSheet, MatBottomSheetRef } from "@angular/material";
 export class LayoutToolsComponent {
   @Input() medyaQueryParent: MediaQueryList;
   @Input() varl: string = "mat-menu-item";
-  constructor(private _bottomSheet: MatBottomSheet) {}
+  constructor(private _bottomSheet: MatBottomSheet, public dialog: MatDialog) {}
+
+  animal: string;
+  name: string = 'Confirmación';
+
   ngOnInit() {}
 
   openBottomSheet(): void {
     this._bottomSheet.open(BottomSheetOverviewExampleSheet);
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+      width: '250px',
+      data: {name: this.name, animal: this.animal}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.animal = result;
+    });
   }
 }
 
@@ -107,5 +129,37 @@ export class BottomSheetOverviewExampleSheet {
   openLink(event: MouseEvent): void {
     this._bottomSheetRef.dismiss();
     event.preventDefault();
+  }
+}
+
+export interface DialogData {
+  animal: string;
+  name: string;
+}
+
+@Component({
+  selector: "dialog-overview-example-dialog",
+  template: `
+    <h1 mat-dialog-title>{{ data.name }}</h1>
+    <div mat-dialog-content>
+      <p>¿Desea Salir?</p>
+      
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">No</button>
+      <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>
+        Confirmar
+      </button>
+    </div>
+  `
+})
+export class DialogOverviewExampleDialog {
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

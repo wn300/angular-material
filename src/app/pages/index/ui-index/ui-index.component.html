@@ -1,7 +1,7 @@
 <mat-horizontal-stepper labelPosition="bottom" #stepper>
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Fill out your name</ng-template>
+      <ng-template matStepLabel>Ingrese su nombre</ng-template>
       <mat-form-field>
         <input
           matInput
@@ -11,13 +11,13 @@
         />
       </mat-form-field>
       <div>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperNext>Siguiente</button>
       </div>
     </form>
   </mat-step>
   <mat-step [stepControl]="secondFormGroup" optional>
     <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Fill out your address</ng-template>
+      <ng-template matStepLabel>Ingrese su dirección</ng-template>
       <mat-form-field>
         <input
           matInput
@@ -27,17 +27,17 @@
         />
       </mat-form-field>
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperPrevious>Regresar</button>
+        <button mat-button matStepperNext>Siguiente</button>
       </div>
     </form>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>
-    You are now done.
+    Finalizar
     <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
+      <button mat-button matStepperPrevious>Regresar</button>
+      <button mat-button (click)="stepper.reset()">Siguiente</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

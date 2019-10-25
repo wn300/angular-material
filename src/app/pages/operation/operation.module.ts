@@ -1,13 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { UiOperationComponent } from './ui-operation/ui-operation.component';
-
-
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { UiOperationComponent } from "./ui-operation/ui-operation.component";
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 @NgModule({
   declarations: [UiOperationComponent],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule, DragDropModule]
 })
-export class OperationModule { }
+export class OperationModule {}
